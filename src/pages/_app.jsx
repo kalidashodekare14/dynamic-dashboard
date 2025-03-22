@@ -1,11 +1,12 @@
 import '@/styles/globals.css'
+import ProtectRoute from '../hooks/userProtect'
 
 export default function MyApp({ Component, pageProps }) {
 
 
     return (
-        <div>
+        <ProtectRoute>
             <Component {...pageProps} />
-        </div>
+        </ProtectRoute>
     )
 }

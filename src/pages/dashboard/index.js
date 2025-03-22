@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../components/Dashboard/DashboardLayout'
 import { IoSearchOutline } from 'react-icons/io5'
 import axios from 'axios'
+import { useRouter } from 'next/router'
+import { userProtect } from '../../hooks/userProtect'
 
 export async function getServerSideProps() {
   const res = await fetch('https://jsonplaceholder.typicode.com/posts')
@@ -11,6 +13,8 @@ export async function getServerSideProps() {
 
 
 const dashboarPage = ({ repo }) => {
+
+
 
   const [isData, setIsData] = useState(repo);
   const [searchTerm, setSearchTerm] = useState("");
