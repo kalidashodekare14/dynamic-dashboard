@@ -5,32 +5,22 @@ import { IoSearchOutline } from "react-icons/io5";
 
 
 
-const DashboardPage = () => {
 
-  const [isData, setIsData] = useState([])
-  console.log('checking data', isData)
+const DashboardPage = ({ repo }) => {
 
-  useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/posts')
-      .then(res => {
-        console.log(res.data)
-        setIsData(res.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }, [])
-
-
-
+ 
   return (
     <div>
-      <form className='p-3 flex items-center'>
-        <input className='input focus:outline-0' placeholder='Search...' name='search' type="text" />
-        <button type='submit'>
+      <div className='p-3 flex items-center'>
+        <input
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className='input focus:outline-0'
+          placeholder='Search...'
+          type="text" />
+        <button>
           <IoSearchOutline className='text-2xl cursor-pointer' />
         </button>
-      </form>
+      </div>
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}

@@ -3,32 +3,38 @@ import Layout from '../../components/Dashboard/DashboardLayout'
 import { IoSearchOutline } from 'react-icons/io5'
 import axios from 'axios'
 
+export async function getServerSideProps() {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+  const repo = await res.json()
+  return { props: { repo } }
+}
 
 
+const dashboarPage = ({ repo }) => {
 
-const dashboarPage = () => {
+  const [isData, setIsData] = useState(repo)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [searchData, setSearchData] = useState("")
 
-  const [isData, setIsData] = useState([])
-  console.log('checking data', isData)
+  const handleSearch = () => {
+    setSearchData(searchTerm)
+  }
 
   useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/posts')
-      .then(res => {
-        console.log(res.data)
-        setIsData(res.data)
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }, [])
+    const search = isData.filter(data =>
+      data.title.toLowerCase().includes(searchData.toLowerCase()) ||
+      parseInt(data.id) === parseInt(searchData)
+    )
+    setIsData(search)
+  }, [searchData])
 
 
   return (
     <Layout>
       <div>
         <div className='p-3 flex items-center'>
-          <input className='input focus:outline-0' placeholder='Search...' name='search' type="text" />
-          <button type='submit'>
+          <input onChange={(e) => setSearchTerm(e.target.value)} className='input focus:outline-0' placeholder='Search...' name='search' type="text" />
+          <button onClick={handleSearch}>
             <IoSearchOutline className='text-2xl cursor-pointer' />
           </button>
         </div>
