@@ -1,9 +1,58 @@
+"use client"
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import React from 'react'
+import { useForm } from "react-hook-form"
+import Swal from 'sweetalert2'
 
 const loginPage = () => {
+
+  const router = useRouter()
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm()
+
+  const onSubmit = async (data) => {
+    console.log(data)
+    const userInfo = {
+      email: data.email,
+      password: data.password
+    }
+    const res = await axios.post('/api/login', userInfo)
+    console.log(res)
+    if (res.status === 200) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your login successfuly",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      localStorage.setItem('token', res.data.token);
+      router.push('/dashboard')
+    }
+  }
+
   return (
-    <div>
-        <h1>Login page</h1>
+    <div className='flex justify-center items-center h-[600px]'>
+      <form onSubmit={handleSubmit(onSubmit)} className='w-80 border border-[#bbb] p-3  flex flex-col justify-center items-center gap-3'>
+        <h1 className='text-4xl'>Login</h1>
+        <div className='flex flex-col w-full gap-1'>
+          <label htmlFor="">Email</label>
+          <input {...register("email", { required: true })} className={`${errors.email && 'border-red-500'} input w-full focus:outline-0`} type="email" />
+          {errors.email && <span className='text-red-500'>Email must be required</span>}
+        </div>
+        <div className='flex flex-col w-full gap-1'>
+          <label htmlFor="">Password</label>
+          <input {...register("password", { required: true, minLength: 6 })} className={`${errors.password && 'border-red-500'} input w-full focus:outline-0`} type="password" />
+          {errors.password && <span className='text-red-500'>Password is required and must be 6 characters.</span>}
+        </div>
+        <button type='submit' className='btn'>Login</button>
+      </form>
     </div>
   )
 }
