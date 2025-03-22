@@ -12,9 +12,12 @@ export async function getServerSideProps() {
 
 const dashboarPage = ({ repo }) => {
 
-  const [isData, setIsData] = useState(repo)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [searchData, setSearchData] = useState("")
+  const [isData, setIsData] = useState(repo);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchData, setSearchData] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
 
   const handleSearch = () => {
     setSearchData(searchTerm)
@@ -28,6 +31,12 @@ const dashboarPage = ({ repo }) => {
     setIsData(search)
   }, [searchData])
 
+
+  // Pagination
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = isData.slice(startIndex, startIndex + itemsPerPage)
+  const totalPages = Math.ceil(isData.length / itemsPerPage)
 
   return (
     <Layout>
@@ -51,7 +60,7 @@ const dashboarPage = ({ repo }) => {
             <tbody>
               {
                 isData.length > 0 ? (
-                  isData.map(data => (
+                  currentItems.map(data => (
                     <tr>
                       <th>{data?.userId}</th>
                       <td>{data?.title}</td>
@@ -67,6 +76,26 @@ const dashboarPage = ({ repo }) => {
 
             </tbody>
           </table>
+          <div className='flex  justify-center items-center gap-3 my-10'>
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className='btn'
+            >Prev</button>
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                onClick={() => setCurrentPage(i + 1)}
+                className={`btn ${currentPage === i + 1 ? "bg-[#07ab4e] text-white" : ""}`}>
+                {i + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => setCurrentPage(next => Math.min(next + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className='btn'
+            >Next</button>
+          </div>
+
         </div>
       </div>
     </Layout>
