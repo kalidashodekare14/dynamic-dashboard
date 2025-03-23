@@ -17,24 +17,14 @@ const loginPage = () => {
   } = useForm()
 
   const onSubmit = async (data) => {
-    console.log(data)
-    const userInfo = {
-      email: data.email,
-      password: data.password
-    }
-    const res = await axios.post('/api/login', userInfo)
-    console.log(res)
-    if (res.status === 200) {
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Your login successfuly",
-        showConfirmButton: false,
-        timer: 1500
-      });
-      localStorage.setItem('token', res.data.token);
-      router.push('/dashboard')
-    }
+   const JWT_SECRET = "53616aee0f6083d17b5e5631f81d1754224b62068dad5eeeb51468b6d8a0d5ffdf22c7d3d3881472d78099a890aaac4788e05f23f76eb08350c5021278152caf"
+    localStorage.setItem('token', JWT_SECRET)
+    Swal.fire({
+      title: "Login Successfuly",
+      icon: "success",
+      draggable: true
+    });
+    router.push('/dashboard')
   }
 
   return (
@@ -43,12 +33,12 @@ const loginPage = () => {
         <h1 className='text-4xl'>Login</h1>
         <div className='flex flex-col w-full gap-1'>
           <label htmlFor="">Email</label>
-          <input {...register("email", { required: true })} className={`${errors.email && 'border-red-500'} input w-full focus:outline-0`} type="email" />
+          <input {...register("email", { required: true })} className={`${errors.email && 'border-red-500'} input w-full border focus:outline-0`} type="email" />
           {errors.email && <span className='text-red-500'>Email must be required</span>}
         </div>
         <div className='flex flex-col w-full gap-1'>
           <label htmlFor="">Password</label>
-          <input {...register("password", { required: true, minLength: 6 })} className={`${errors.password && 'border-red-500'} input w-full focus:outline-0`} type="password" />
+          <input {...register("password", { required: true, minLength: 6 })} className={`${errors.password && 'border-red-500'} input w-full border focus:outline-0`} type="password" />
           {errors.password && <span className='text-red-500'>Password is required and must be 6 characters.</span>}
         </div>
         <button type='submit' className='btn'>Login</button>

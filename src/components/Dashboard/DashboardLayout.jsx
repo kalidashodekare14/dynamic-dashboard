@@ -1,11 +1,19 @@
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React from 'react'
+import DashboardHeader from './DashboardHeader'
 
 const DashboardLayout = ({ children }) => {
 
     const pathname = usePathname()
-    console.log(pathname)
+    const [isToggle, setIsToggle] = useState(false)
+
+    console.log('check now', isToggle)
+
+    const handleToggle = () => {
+        setIsToggle(!isToggle)
+    }
+
 
     const navigationInfo = [
         {
@@ -26,8 +34,8 @@ const DashboardLayout = ({ children }) => {
     ]
 
     return (
-        <div className='flex'>
-            <div className='border border-[#bbb] w-40 min-h-screen'>
+        <div className='flex relative'>
+            <div className={`${isToggle ? "translate-y-20 translate-x-0 duration-300" : "-translate-x-full translate-y-20 duration-300"} z-50 absolute lg:static lg:translate-y-0 lg:translate-x-0  left-0  bg-white w-52 border h-screen`}>
                 {
                     navigationInfo.map(navi => (
                         <Link key={navi.id} href={navi.path}>
@@ -36,7 +44,10 @@ const DashboardLayout = ({ children }) => {
                     ))
                 }
             </div>
-            <main className='w-full'>
+            <main className='w-full z-10'>
+                <div>
+                    <DashboardHeader handleToggle={handleToggle} />
+                </div>
                 {children}
             </main>
         </div>
