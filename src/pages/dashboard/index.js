@@ -49,8 +49,8 @@ const dashboarPage = ({ repo }) => {
     <Layout>
       <div className='font-rubik'>
         <div className='p-3 flex items-center'>
-          <input onChange={(e) => setSearchTerm(e.target.value)} className='input focus:outline-0' placeholder='Search...' name='search' type="text" />
-          <button onClick={handleSearch}>
+          <input onChange={(e) => setSearchTerm(e.target.value)} className='input border focus:outline-0' placeholder='Search...' name='search' type="text" />
+          <button className='btn' onClick={handleSearch}>
             <IoSearchOutline className='text-2xl cursor-pointer' />
           </button>
         </div>
