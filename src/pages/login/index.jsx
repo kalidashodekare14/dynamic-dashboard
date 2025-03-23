@@ -17,12 +17,14 @@ const loginPage = () => {
   } = useForm()
 
   const onSubmit = async (data) => {
-   const JWT_SECRET = "53616aee0f6083d17b5e5631f81d1754224b62068dad5eeeb51468b6d8a0d5ffdf22c7d3d3881472d78099a890aaac4788e05f23f76eb08350c5021278152caf"
+    const JWT_SECRET = "53616aee0f6083d17b5e5631f81d1754224b62068dad5eeeb51468b6d8a0d5ffdf22c7d3d3881472d78099a890aaac4788e05f23f76eb08350c5021278152caf"
     localStorage.setItem('token', JWT_SECRET)
     Swal.fire({
-      title: "Login Successfuly",
+      position: "center",
       icon: "success",
-      draggable: true
+      title: "Login has been successfuly",
+      showConfirmButton: false,
+      timer: 1500
     });
     router.push('/dashboard')
   }
