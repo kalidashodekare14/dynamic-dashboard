@@ -1,13 +1,18 @@
 "use client"
+import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { FaBars } from "react-icons/fa6";
 
 
 const DashboardHeader = ({ handleToggle }) => {
 
+    const router = useRouter()
+
     const handleLogout = () => {
         localStorage.removeItem("token")
+        router.push('/login')
     }
+
 
     return (
         <div className={`p-3 shadow flex justify-between items-center`}>
